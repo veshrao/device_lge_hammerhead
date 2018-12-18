@@ -20,9 +20,6 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
     chown system system /sys/kernel/debug/kgsl/proc
 
-on init
-    symlink /sdcard /storage/sdcard0
-
 on fs
     mount_all ./fstab.hammerhead
     restorecon_recursive /persist
