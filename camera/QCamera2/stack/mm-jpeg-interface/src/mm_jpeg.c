@@ -36,6 +36,7 @@
 #include <fcntl.h>
 #include <poll.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "mm_jpeg_dbg.h"
 #include "mm_jpeg_interface.h"
@@ -1218,7 +1219,7 @@ OMX_ERRORTYPE mm_jpeg_session_config_common(mm_jpeg_job_session_t *p_session)
       }
     }
   } else {
-    CDBG_ERROR("%s:%d] Metadata is null", __func__, __LINE__, rc);
+    CDBG_ERROR("%s:%d] Metadata is null %d", __func__, __LINE__, rc);
   }
 
   return rc;
