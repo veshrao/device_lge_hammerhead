@@ -130,8 +130,6 @@ OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
 TARGET_HAS_HH_VSYNC_ISSUE := true
 
-TARGET_TOUCHBOOST_FREQUENCY:= 1200
-
 USE_DEVICE_SPECIFIC_QCOM_PROPRIETARY:= true
 TARGET_PROCESS_SDK_VERSION_OVERRIDE := \
     /system/bin/cameraserver=22 \
@@ -151,5 +149,9 @@ endif
 TARGET_LD_SHIM_LIBS := \
     /system/vendor/bin/mpdecision|libshim_atomic.so \
     /system/lib/libril-qc-qmi-1.so|libshim_ril.so
+
+# Power
+TARGET_USES_INTERACTION_BOOST := true
+TARGET_USES_NON_LEGACY_POWERHAL := true
 
 -include vendor/lge/hammerhead/BoardConfigVendor.mk
