@@ -43,6 +43,9 @@ on early-boot
     write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
     write /sys/module/subsystem_restart/parameters/enable_ramdumps ${persist.sys.ssr.enable_ramdumps}
 
+    # qseecomd
+    start vendor.qseecomd
+
 on boot
     # bluetooth
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
