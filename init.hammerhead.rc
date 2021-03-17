@@ -34,6 +34,10 @@ on early-boot
     # adsp
     write /sys/kernel/boot_adsp/boot 1
 
+    # subsystem (modem etc) debugging
+    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
+    write /sys/module/subsystem_restart/parameters/enable_ramdumps ${persist.sys.ssr.enable_ramdumps}
+
 on boot
     # bluetooth
     chown bluetooth bluetooth /sys/class/rfkill/rfkill0/type
@@ -171,10 +175,6 @@ on boot
     chmod 664 /sys/devices/system/cpu/cpu3/online
 
 on post-fs-data
-    # Subsytem Ramdump collection
-    mkdir /data/tombstones/ramdump 0777 system system
-    write /sys/module/subsystem_restart/parameters/enable_ramdumps 1
-
     # NFC: create data/nfc for nv storage
     mkdir /data/nfc 0770 nfc nfc
     mkdir /data/nfc/param 0770 nfc nfc
@@ -209,6 +209,11 @@ on post-fs-data
 
     # keep that at the end of on post-fs-data
     setprop vold.post_fs_data_done 1
+
+on post-fs-data && property:persist.sys.ssr.enable_ramdumps=1
+    # Subsytem Ramdump collection
+    mkdir /data/tombstones/ramdump 0777 system system
+    start ssr_ramdump
 
 on charger
     # Enable Power modes
@@ -264,9 +269,6 @@ on property:sys.boot_completed=1
 
     # enable logging of wake up reasons to kernel logs
     write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
-
-on property:ro.debuggable=1
-    start ssr_ramdump
 
 service rmt_storage /system/bin/rmt_storage
     class core
